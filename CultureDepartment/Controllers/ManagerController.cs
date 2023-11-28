@@ -9,21 +9,26 @@ namespace CultureDepartment.Controllers
     [ApiController]
     public class ManagerController : ControllerBase
     {
-        private static Manager manager =new Manager();
+        private DataContext context;
+        public ManagerController(DataContext context)
+        {
+            this.context = context;
+        }
+
         // GET: api/<ManagerController>
         [HttpGet]
-        public Manager Get() => manager;
+        public Manager Get() => context.Manager;
 
 
         // PUT api/<ManagerController>/5
         [HttpPut]
         public void Put( [FromBody] Manager m)
         {
-            manager.TZ = m.TZ;
-            manager.FirstName = m.FirstName;
-            manager.LastName = m.LastName;
-            manager.IsResident = m.IsResident;
-            manager.Password = m.Password;
+            context.Manager.TZ = m.TZ;
+            context.Manager.FirstName = m.FirstName;
+            context.Manager.LastName = m.LastName;
+            context.Manager.IsResident = m.IsResident;
+            context.Manager.Password = m.Password;
         }
     }
 }

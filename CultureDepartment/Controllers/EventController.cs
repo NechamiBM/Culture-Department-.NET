@@ -9,19 +9,21 @@ namespace CultureDepartment.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
-        private static List<Event> events = new List<Event>(){
-            new Event(){Name="start",Description="כנס פתיחה"},
-            new Event(){Name="Rosh Hashana",Description="כנס לקראת ראש השנה"}
-        };
+        private DataContext context;
+        public EventController(DataContext dataContext)
+        {
+            context = dataContext;
+        }
+
         // GET: api/<EventController>
         [HttpGet]
-        public IEnumerable<Event> Get(int? status) => events.Where(e => status == null || e.Status == (statusEvent)status);
+        public IEnumerable<Event> Get(int? status) => context.Events.Where(e => status == null || e.Status == (statusEvent)status);
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var eve = events.Find(e => e.Id == id);
+            var eve = context.Events.Find(e => e.Id == id);
             if(eve is null)
                 return NotFound();
             return Ok(eve);
@@ -31,14 +33,14 @@ namespace CultureDepartment.Controllers
         [HttpPost]
         public void Post([FromBody] Event newEvent)
         {
-            events.Add(newEvent);// new Event() { Name = newEvent.Name, DateTime = newEvent.DateTime, Description = newEvent.Description, Status = newEvent.Status, MinAge = newEvent.MinAge, MaxAge = newEvent.MaxAge, Min = newEvent.Min });
+            context.Events.Add(newEvent);// new Event() { Name = newEvent.Name, DateTime = newEvent.DateTime, Description = newEvent.Description, Status = newEvent.Status, MinAge = newEvent.MinAge, MaxAge = newEvent.MaxAge, Min = newEvent.Min });
         }
 
         // PUT api/<EventController>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Event updateEvent)
         {
-            var e = events.Find(e => e.Id == id);
+            var e = context.Events.Find(e => e.Id == id);
             if (e != null)
             {
                 e.Name = updateEvent.Name;
@@ -55,7 +57,7 @@ namespace CultureDepartment.Controllers
         [HttpPut("{id}/status")]
         public IActionResult Put(int id,[FromBody] statusEvent status)
         {
-            var e = events.Find(e => e.Id == id);
+            var e = context.Events.Find(e => e.Id == id);
             if (e != null)
             {
                 e.Status = status;
