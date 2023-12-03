@@ -1,34 +1,25 @@
-﻿using CultureDepartment.Entities;
+﻿using CultureDepartment.Core.Entities;
+using CultureDepartment.Core.Services;
+using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace CultureDepartment.Controllers
+namespace CultureDepartment.API.Controllers
 {
     [Route("culture.co.il/[controller]")]
     [ApiController]
     public class ManagerController : ControllerBase
     {
-        private DataContext context;
-        public ManagerController(DataContext context)
-        {
-            this.context = context;
-        }
+        private readonly IManagerService _managerService;
+        public ManagerController(IManagerService managerService) => _managerService = managerService;
 
         // GET: api/<ManagerController>
         [HttpGet]
-        public Manager Get() => context.Manager;
-
+        public Manager Get() => _managerService.GetManager();
 
         // PUT api/<ManagerController>/5
         [HttpPut]
-        public void Put( [FromBody] Manager m)
-        {
-            context.Manager.TZ = m.TZ;
-            context.Manager.FirstName = m.FirstName;
-            context.Manager.LastName = m.LastName;
-            context.Manager.IsResident = m.IsResident;
-            context.Manager.Password = m.Password;
-        }
+        public void Put([FromBody] Manager m) => _managerService.UpdateManeger(m);
     }
 }

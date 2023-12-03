@@ -1,4 +1,4 @@
-﻿namespace CultureDepartment.Entities
+﻿namespace CultureDepartment.Core.Entities
 {
     public class Worker
     {

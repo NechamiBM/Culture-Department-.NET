@@ -1,4 +1,8 @@
-using CultureDepartment;
+using CaltureDepartment.Data.Repositories;
+using CultureDepartment.Core.Repositories;
+using CultureDepartment.Core.Services;
+using CultureDepartment.Data;
+using CultureDepartment.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +13,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
+builder.Services.AddScoped<IResidentService, ResidentService>();
+builder.Services.AddScoped<IResidentRepository, ResidentRepository>();
+builder.Services.AddScoped<IWorkerService, WorkerService>();
+builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
 builder.Services.AddSingleton<DataContext>();
 
 var app = builder.Build();
