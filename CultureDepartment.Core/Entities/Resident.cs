@@ -1,8 +1,8 @@
 ﻿namespace CultureDepartment.Core.Entities
 {
-    public class Resident
+    public class Resident : Person
     {
-        public string TZ { get; }
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         private DateOnly _birthDate;
@@ -11,11 +11,10 @@
         public int NumBuilding { get; set; }
         public string Phone { get; set; }
 
-        public Resident(string tz,DateOnly birthDate)
+        public Resident(string tz, DateOnly birthDate) : base(tz, birthDate)
         {
-            _birthDate = birthDate;
             this.TZ = tz;
         }
-
+        public Resident()  { }
     }
 }

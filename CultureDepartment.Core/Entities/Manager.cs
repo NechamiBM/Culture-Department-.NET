@@ -2,6 +2,7 @@
 {
     public class Manager:Worker
     {
+        private int id = 1;
         public string Password { get; set; }
         public Manager():base()
         {

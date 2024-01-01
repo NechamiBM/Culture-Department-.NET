@@ -19,12 +19,12 @@ namespace CaltureDepartment.Data.Repositories
         public IEnumerable<Resident> GetResident() => _context.Residents;
 
 
-        public Resident GetResident(string tz) => _context.Residents.Find(w => w.TZ.Equals(tz));
+        public Resident GetResident(string tz) => _context.Residents.ToList().Find(w => w.TZ.Equals(tz));
         public void AddResident(Resident r) => _context.Residents.Add(r);
 
         public bool UpdateResident(string tz, Resident r)
         {
-            var resident = _context.Residents.Find(e => e.TZ == tz);
+            var resident = _context.Residents.ToList().Find(e => e.TZ == tz);
             if (resident != null)
             {
                 resident.FirstName = r.FirstName;
@@ -38,7 +38,7 @@ namespace CaltureDepartment.Data.Repositories
         }
         public void DeleteResident(string tz)
         {
-            _context.Residents.Remove(_context.Residents.Find(r => r.TZ == tz));
+            _context.Residents.Remove(_context.Residents.ToList().Find(r => r.TZ == tz));
         }
     }
 }

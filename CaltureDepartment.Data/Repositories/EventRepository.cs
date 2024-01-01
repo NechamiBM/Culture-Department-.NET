@@ -18,13 +18,13 @@ namespace CaltureDepartment.Data.Repositories
         
 
         public IEnumerable<Event> GetEvents() => _context.Events;
-        public Event GetEvent(int id) => _context.Events.Find(e => e.Id == id);
+        public Event GetEvent(int id) => _context.Events.ToList().Find(e => e.Id == id);
 
         public void AddEvent(Event e) => _context.Events.Add(e);
         
         public bool UpdateEvent(int id, Event updateEvent)
         {
-            var e = _context.Events.Find(e => e.Id == id);
+            var e = _context.Events.ToList().Find(e => e.Id == id);
             if (e != null)
             {
                 e.Name = updateEvent.Name;
@@ -33,7 +33,7 @@ namespace CaltureDepartment.Data.Repositories
                 e.Date = updateEvent.Date;
                 e.MaxAge = updateEvent.MaxAge;
                 e.MinAge = updateEvent.MinAge;
-                e.Min = updateEvent.Min;
+                e.Gender = updateEvent.Gender;
                 return true;
             }
             return false;
@@ -41,7 +41,7 @@ namespace CaltureDepartment.Data.Repositories
 
         public bool UpdateEventStatus(int id, statusEvent status)
         {
-            var e = _context.Events.Find(e => e.Id == id);
+            var e = _context.Events.ToList().Find(e => e.Id == id);
             if (e != null)
             {
                 e.Status = status;

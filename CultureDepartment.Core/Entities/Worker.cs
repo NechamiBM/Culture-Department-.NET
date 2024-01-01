@@ -1,13 +1,10 @@
 ﻿namespace CultureDepartment.Core.Entities
 {
-    public class Worker
+    public class Worker : Person
     {
-        static int id = 0;
-        public int Id { get;  }
         public string TZ { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Name { get; set; }
+        public int Id { get; set; }
         public bool IsResident { get; set; }
-        public Worker() => this.Id = ++id;
     }
 }
