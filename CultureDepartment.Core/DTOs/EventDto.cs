@@ -1,7 +1,8 @@
-﻿namespace CultureDepartment.Core.Entities
+﻿using CultureDepartment.Core.Entities;
+
+namespace CultureDepartment.Core.DTOs
 {
-    public enum statusEvent { Past, Future, Cancel };
-    public class Event
+    public class EventDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,8 +12,8 @@
         public int MinAge { get; set; }
         public int MaxAge { get; set; }
         public Gender Gender { get; set; }
-        public List<Resident> Residents { get; set; }
-        public int WorkerId { get; set; }
-        public Worker EventWorker { get; set; }
+        //maybe put a participants` count in the event
+        //public List<Resident> Residents { get; set; }
+        //public int WorkerId { get; set; }
     }
 }

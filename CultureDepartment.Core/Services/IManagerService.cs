@@ -9,7 +9,7 @@ namespace CultureDepartment.Core.Services
 {
     public interface IManagerService
     {
-        public Manager GetManager();
-        public Manager UpdateManeger(Manager m);
+        Task<Manager> GetManagerAsync();
+        Task<Manager> UpdateManegerAsync(Manager m);
     }
 }

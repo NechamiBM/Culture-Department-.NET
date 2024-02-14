@@ -1,7 +1,8 @@
-﻿namespace CultureDepartment.Core.Entities
+﻿using CultureDepartment.Core.Entities;
+
+namespace CultureDepartment.Core.DTOs
 {
-    public enum Gender { Male, Female };
-    public class Resident
+    public class ResidentDto
     {
         public int Id { get; set; }
         public string Identity { get; set; }
@@ -13,6 +14,7 @@
         public int NumBuilding { get; set; }
         public string Phone { get; set; }
         public Gender Gender { get; set; }
-        public List<Event> Events { get; set; }
+
+        //public List<Event> Events { get; set; }
     }
 }

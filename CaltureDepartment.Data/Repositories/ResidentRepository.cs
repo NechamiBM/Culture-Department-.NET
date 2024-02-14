@@ -2,6 +2,7 @@
 using CultureDepartment.Core.Repositories;
 using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,20 +15,21 @@ namespace CaltureDepartment.Data.Repositories
     public class ResidentRepository : IResidentRepository
     {
         private readonly DataContext _context;
+
         public ResidentRepository(DataContext context) => _context = context;
 
-        public IEnumerable<Resident> GetResident() => _context.Residents;
+        public async Task<IEnumerable<Resident>> GetResidentsAsync() => await _context.Residents.ToListAsync();
 
+        public async Task<Resident> GetResidentAsync(string tz) => await _context.Residents.FindAsync(tz);
 
-        public Resident GetResident(string tz) => _context.Residents.Find(tz);
-        public Resident AddResident(Resident r) 
-        { 
+        public async Task<Resident> AddResidentAsync(Resident r)
+        {
             _context.Residents.Add(r);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return r;
         }
 
-        public Resident UpdateResident(string tz, Resident r)
+        public async Task<Resident> UpdateResidentAsync(string tz, Resident r)
         {
             var resident = _context.Residents.Find(tz);
             if (resident != null)
@@ -38,7 +40,7 @@ namespace CaltureDepartment.Data.Repositories
                 resident.NumBuilding = r.NumBuilding;
                 resident.Phone = r.Phone;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return r;
         }
         public void DeleteResident(string tz)

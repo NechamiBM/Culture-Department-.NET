@@ -12,9 +12,17 @@ namespace CultureDepartment.Service
     public class ManagerService : IManagerService
     {
         private readonly IManagerRepository _managerRepository;
-        public ManagerService(IManagerRepository managerRepository) => _managerRepository = managerRepository;
+        public ManagerService(IManagerRepository managerRepository)
+        {
+            _managerRepository = managerRepository;
+        }
 
-        public Manager GetManager() => _managerRepository.GetManager();
-        public Manager UpdateManeger(Manager m) => _managerRepository.UpdateManeger(m);
+        public async Task<Manager> GetManagerAsync()
+        {
+            var manager = await _managerRepository.GetManagerAsync();
+            manager.Password = "********";//צריך לבדוק איך להחליף לכוכביות
+            return manager;
+        }
+        public async Task<Manager> UpdateManegerAsync(Manager m) => await _managerRepository.UpdateManegerAsync(m);
     }
 }

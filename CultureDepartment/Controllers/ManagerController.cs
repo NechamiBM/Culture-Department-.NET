@@ -1,4 +1,5 @@
-﻿using CultureDepartment.Core.Entities;
+﻿using AutoMapper;
+using CultureDepartment.Core.Entities;
 using CultureDepartment.Core.Services;
 using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +13,24 @@ namespace CultureDepartment.API.Controllers
     public class ManagerController : ControllerBase
     {
         private readonly IManagerService _managerService;
-        public ManagerController(IManagerService managerService) => _managerService = managerService;
+        private readonly IMapper _mapper;
+        public ManagerController(IManagerService managerService, IMapper mapper)
+        {
+            _managerService = managerService;
+            _mapper = mapper;
+        }
 
         // GET: api/<ManagerController>
         [HttpGet]
-        public Manager Get() => _managerService.GetManager();
-
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _managerService.GetManagerAsync());
+        }
         // PUT api/<ManagerController>/5
         [HttpPut]
-        public void Put([FromBody] Manager m) => _managerService.UpdateManeger(m);
+        public async Task<IActionResult> Put([FromBody] Manager m)
+        {
+            return Ok(await _managerService.UpdateManegerAsync(m));
+        }
     }
 }

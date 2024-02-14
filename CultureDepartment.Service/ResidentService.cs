@@ -15,10 +15,17 @@ namespace CultureDepartment.Service
         private readonly IResidentRepository _residentRepository;
         public ResidentService(IResidentRepository residentRepository) => _residentRepository = residentRepository;
 
-        public IEnumerable<Resident> GetResident(int? age) => _residentRepository.GetResident().Where(r => age == null || r.Age >= age);
-        public Resident GetResident(string tz) => _residentRepository.GetResident(tz);
-        public Resident AddResident(Resident r) => _residentRepository.AddResident(r);
-        public Resident UpdateResident(string tz, Resident r) => _residentRepository.UpdateResident(tz, r);
+        public async Task<IEnumerable<Resident>> GetResidentsAsync(Gender? gender, int? minAge, int? maxAge)
+        {
+            var residents = await _residentRepository.GetResidentsAsync();
+            return residents.Where(r =>
+            (minAge == null || r.Age >= minAge) &&
+            (maxAge == null || r.Age <= maxAge) &&
+            (gender == null || r.Gender == gender));
+        }
+        public async Task<Resident> GetResidentAsync(string tz) => await _residentRepository.GetResidentAsync(tz);
+        public async Task<Resident> AddResidentAsync(Resident r) => await _residentRepository.AddResidentAsync(r);
+        public async Task<Resident> UpdateResidentAsync(string tz, Resident r) => await _residentRepository.UpdateResidentAsync(tz, r);
         public void DeleteResident(string tz) => _residentRepository.DeleteResident(tz);
     }
 }

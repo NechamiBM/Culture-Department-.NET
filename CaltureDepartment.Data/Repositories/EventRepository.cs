@@ -2,6 +2,7 @@
 using CultureDepartment.Core.Repositories;
 using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,16 @@ namespace CaltureDepartment.Data.Repositories
     {
         private readonly DataContext _context;
         public EventRepository(DataContext context) => _context = context;
-        public IEnumerable<Event> GetEvents() => _context.Events;
-        public Event GetEvent(int id) => _context.Events.ToList().Find(e => e.Id == id);
-        public Event AddEvent(Event e)
-        { 
+
+        public async Task<IEnumerable<Event>> GetEventsAsync() => await _context.Events.ToListAsync();
+        public async Task<Event> GetEventAsync(int id) => await _context.Events.FindAsync(id);
+        public async Task<Event> AddEventAsync(Event e)
+        {
             _context.Events.Add(e);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return e;
         }
-        public Event UpdateEvent(int id, Event updateEvent)
+        public async Task<Event> UpdateEventAsync(int id, Event updateEvent)
         {
             var e = _context.Events.Find(id);
             if (e != null)
@@ -36,16 +38,16 @@ namespace CaltureDepartment.Data.Repositories
                 e.MinAge = updateEvent.MinAge;
                 e.Gender = updateEvent.Gender;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return updateEvent;
         }
 
-        public Event UpdateEventStatus(int id, statusEvent status)
+        public async Task<Event> UpdateEventStatusAsync(int id, statusEvent status)
         {
             var e = _context.Events.Find(id);
             if (e != null)
                 e.Status = status;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return e;
         }
     }

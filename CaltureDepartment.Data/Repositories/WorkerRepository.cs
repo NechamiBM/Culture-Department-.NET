@@ -2,6 +2,7 @@
 using CultureDepartment.Core.Repositories;
 using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,15 @@ namespace CaltureDepartment.Data.Repositories
         private readonly DataContext _context;
         public WorkerRepository(DataContext context) => _context = context;
 
-        public IEnumerable<Worker> GetWorkers()=> _context.Workers;
-        public Worker GetWorker(int id)=> _context.Workers.Find(id);
-        public Worker AddWorker(Worker w)
+        public async Task<IEnumerable<Worker>> GetWorkersAsync() => await _context.Workers.ToListAsync();
+        public async Task<Worker> GetWorkerAsync(int id) => await _context.Workers.FindAsync(id);
+        public async Task<Worker> AddWorkerAsync(Worker w)
         {
             _context.Workers.Add(w);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return w;
         }
-        public Worker UpdateWorker(int id, Worker w)
+        public async Task<Worker> UpdateWorkerAsync(int id, Worker w)
         {
             var worker = _context.Workers.Find(id);
             if (worker != null)
@@ -32,9 +33,9 @@ namespace CaltureDepartment.Data.Repositories
                 worker.Name = w.Name;
                 worker.IsResident = w.IsResident;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return w;
         }
-        public void DeleteWorker(int id)=> _context.Workers.Remove(_context.Workers.ToList().Find(w => w.Id == id));
+        public void DeleteWorker(int id) => _context.Workers.Remove(_context.Workers.ToList().Find(w => w.Id == id));
     }
 }

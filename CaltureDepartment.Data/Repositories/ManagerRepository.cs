@@ -17,8 +17,8 @@ namespace CaltureDepartment.Data.Repositories
         {
             _context = context;
         }
-        public Manager GetManager() => _context.Manager.FirstOrDefault();
-        public Manager UpdateManeger(Manager m)
+        public async Task<Manager> GetManagerAsync() => await _context.Manager.FindAsync();
+        public async Task<Manager> UpdateManegerAsync(Manager m)
         {
             var manager = _context.Manager.FirstOrDefault();
             if (manager != null)
@@ -27,7 +27,7 @@ namespace CaltureDepartment.Data.Repositories
                 manager.Password = m.Password;
                 manager.Name = m.Name;
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return m;
         }
     }

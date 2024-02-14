@@ -1,6 +1,8 @@
-﻿using CultureDepartment.Core.Entities;
+﻿using AutoMapper;
+using CultureDepartment.API.Models.post;
+using CultureDepartment.Core.DTOs;
+using CultureDepartment.Core.Entities;
 using CultureDepartment.Core.Services;
-using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,42 +14,61 @@ namespace CultureDepartment.API.Controllers
     public class EventController : ControllerBase
     {
         private readonly IEventService _eventService;
-        public EventController(IEventService eventService) => _eventService = eventService;
+        private readonly IMapper _mapper;
+        public EventController(IEventService eventService, IMapper mapper)
+        {
+            _eventService = eventService;
+            _mapper = mapper;
+        }
 
         // GET: api/<EventController>
         [HttpGet]
-        public IEnumerable<Event> Get(int? status) => _eventService.GetEvents((statusEvent?)status);
+        public async Task<IActionResult> Get(int? status, int? age)
+        {
+            var events = await _eventService.GetEventsAsync((statusEvent?)status, age);
+            var listDto = events.Select(e => _mapper.Map<EventDto>(e));
+            return Ok(listDto);
+        }
 
         // GET api/<EventController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var eve = _eventService.GetEvent(id);
-            if (eve is null)
+            var eve = await _eventService.GetEventAsync(id);
+            var eventDto = _mapper.Map<EventDto>(eve);
+            if (eventDto is null)
                 return NotFound();
-            return Ok(eve);
+            return Ok(eventDto);
         }
 
         // POST api/<EventController>
         [HttpPost]
-        public void Post([FromBody] Event newEvent) => _eventService.AddEvent(newEvent);
-        // new Event() { Name = newEvent.Name, DateTime = newEvent.DateTime, Description = newEvent.Description, Status = newEvent.Status, MinAge = newEvent.MinAge, MaxAge = newEvent.MaxAge, Min = newEvent.Min });
+        public async Task<IActionResult> Post([FromBody] EventPostModel postEvent)
+        {
+            var eve = await _eventService.AddEventAsync(_mapper.Map<Event>(postEvent));
+            var newEve = await _eventService.GetEventAsync(eve.Id);
+            return Ok(_mapper.Map<EventDto>(newEve));
+        }
 
         // PUT api/<EventController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Event updateEvent)
+        public async Task<IActionResult> Put(int id, [FromBody] EventPostModel putEvent)
         {
-            if (_eventService.UpdateEvent(id, updateEvent) != null)
-                return Ok();
-            return NotFound();
+            var eve = await _eventService.UpdateEventAsync(id, _mapper.Map<Event>(putEvent));
+            var newEve = await _eventService.GetEventAsync(eve.Id);
+            if (newEve is null)
+                return NotFound();
+            return Ok(newEve);
         }
 
         [HttpPut("{id}/status")]
-        public IActionResult Put(int id, [FromBody] statusEvent status)
+        public async Task<IActionResult> Put(int id, [FromBody] statusEvent status)
         {
-            if (_eventService.UpdateEventStatus(id, status) != null)
-                return Ok();
-            return NotFound();
+            var eve = await _eventService.UpdateEventStatusAsync(id, status);
+            var newEve = await _eventService.GetEventAsync(eve.Id);
+            if (newEve is null)
+                return NotFound();
+            return Ok(newEve);
         }
 
     }

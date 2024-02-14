@@ -1,6 +1,6 @@
-﻿namespace CultureDepartment.Core.Entities
+﻿namespace CultureDepartment.Core.DTOs
 {
-    public class Worker
+    public class WorkerDto 
     {
         public int Id { get; set; }
         public string Identity { get; set; }

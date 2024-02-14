@@ -14,17 +14,26 @@ namespace CultureDepartment.Service
         private readonly IEventRepository _eventRepository;
         public EventService(IEventRepository eventRepository) => _eventRepository = eventRepository;
 
-        public IEnumerable<Event> GetEvents(statusEvent? status = null) => _eventRepository.GetEvents().Where(e => status == null || e.Status.Equals(status));
-        public Event GetEvent(int id) => _eventRepository.GetEvent(id);
-        public Event AddEvent(Event e) => _eventRepository.AddEvent(e);
-        public Event UpdateEvent(int id, Event e) => _eventRepository.UpdateEvent(id, e);
-
-        public Event UpdateEventStatus(int id, statusEvent status)
+        public async Task<IEnumerable<Event>> GetEventsAsync(statusEvent? status, int? age)
         {
-            Event e = _eventRepository.GetEvent(id);
+            var events = await _eventRepository.GetEventsAsync();
+            return events.Where(e => (status == null || e.Status.Equals(status)) && (age == null || (age >= e.MinAge && age <= e.MaxAge)));
+        }
+
+        public async Task<Event> GetEventAsync(int id)
+        {
+            return await _eventRepository.GetEventAsync(id);
+        }
+        public async Task<Event> AddEventAsync(Event e) => await _eventRepository.AddEventAsync(e);
+       
+        public async Task<Event> UpdateEventAsync(int id, Event e) => await _eventRepository.UpdateEventAsync(id, e);
+
+        public async Task<Event> UpdateEventStatusAsync(int id, statusEvent status)
+        {
+            Event e = await _eventRepository.GetEventAsync(id);
             if (e == null || status == statusEvent.Past && e.Date.CompareTo(DateTime.Now) >= 0 || e.Status == statusEvent.Past)
                 return null;
-            return _eventRepository.UpdateEventStatus(id, status);
+            return await _eventRepository.UpdateEventStatusAsync(id, status);
         }
     }
 }

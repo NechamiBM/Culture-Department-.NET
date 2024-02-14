@@ -9,10 +9,10 @@ namespace CultureDepartment.Core.Services
 {
     public interface IWorkerService
     {
-        public IEnumerable<Worker> GetWorkers();
-        public Worker GetWorker(int id);
-        public Worker AddWorker(Worker w);
-        public Worker UpdateWorker(int id,Worker w);
-        public void DeleteWorker(int id);
+        Task<IEnumerable<Worker>> GetWorkersAsync();
+        Task<Worker> GetWorkerAsync(int id);
+        Task<Worker> AddWorkerAsync(Worker w);
+        Task<Worker> UpdateWorkerAsync(int id, Worker w);
+        void DeleteWorker(int id);
     }
 }

@@ -9,10 +9,10 @@ namespace CultureDepartment.Core.Services
 {
     public interface IEventService
     {
-        public IEnumerable<Event> GetEvents(statusEvent? status = null);
-        public Event GetEvent(int id);
-        public Event AddEvent(Event e);
-        public Event UpdateEvent(int id, Event e);
-        public Event UpdateEventStatus(int id, statusEvent status);
+        Task<IEnumerable<Event>> GetEventsAsync(statusEvent? status, int? age);
+        Task<Event> GetEventAsync(int id);
+        Task<Event> AddEventAsync(Event e);
+        Task<Event> UpdateEventAsync(int id, Event e);
+        Task<Event> UpdateEventStatusAsync(int id, statusEvent status);
     }
 }

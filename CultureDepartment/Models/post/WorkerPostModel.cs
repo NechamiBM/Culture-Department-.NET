@@ -1,8 +1,7 @@
-﻿namespace CultureDepartment.Core.Entities
+﻿namespace CultureDepartment.API.Models.post
 {
-    public class Worker
+    public class WorkerPostModel
     {
-        public int Id { get; set; }
         public string Identity { get; set; }
         public string Name { get; set; }
         public bool IsResident { get; set; }

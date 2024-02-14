@@ -1,4 +1,6 @@
 using CaltureDepartment.Data.Repositories;
+using CultureDepartment.API;
+using CultureDepartment.Core;
 using CultureDepartment.Core.Repositories;
 using CultureDepartment.Core.Services;
 using CultureDepartment.Data;
@@ -28,6 +30,8 @@ builder.Services.AddScoped<IResidentRepository, ResidentRepository>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
 builder.Services.AddScoped<IWorkerRepository, WorkerRepository>();
 builder.Services.AddDbContext<DataContext>();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ApiMappingProfile));
 
 var app = builder.Build();
 

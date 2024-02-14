@@ -9,7 +9,7 @@ namespace CultureDepartment.Core.Repositories
 {
     public interface IManagerRepository
     {
-        public Manager GetManager();
-        public Manager UpdateManeger(Manager m);
+        Task<Manager> GetManagerAsync();
+        Task<Manager> UpdateManegerAsync(Manager m);
     }
 }
