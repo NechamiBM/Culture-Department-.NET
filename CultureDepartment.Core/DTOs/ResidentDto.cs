@@ -14,7 +14,5 @@ namespace CultureDepartment.Core.DTOs
         public int NumBuilding { get; set; }
         public string Phone { get; set; }
         public Gender Gender { get; set; }
-
-        //public List<Event> Events { get; set; }
     }
 }

@@ -7,7 +7,7 @@
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public statusEvent Status { get; set; }
+        public statusEvent Status { get; set; } = statusEvent.Future;
         public int MinAge { get; set; }
         public int MaxAge { get; set; }
         public Gender Gender { get; set; }

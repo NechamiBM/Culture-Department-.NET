@@ -1,5 +1,6 @@
 using CaltureDepartment.Data.Repositories;
 using CultureDepartment.API;
+using CultureDepartment.API.MidddleWare;
 using CultureDepartment.Core;
 using CultureDepartment.Core.Repositories;
 using CultureDepartment.Core.Services;
@@ -45,6 +46,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseTrack();
 
 app.MapControllers();
 

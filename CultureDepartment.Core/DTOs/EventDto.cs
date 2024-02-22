@@ -12,8 +12,5 @@ namespace CultureDepartment.Core.DTOs
         public int MinAge { get; set; }
         public int MaxAge { get; set; }
         public Gender Gender { get; set; }
-        //maybe put a participants` count in the event
-        //public List<Resident> Residents { get; set; }
-        //public int WorkerId { get; set; }
     }
 }
