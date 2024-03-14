@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CultureDepartment.API.Models.post;
 using CultureDepartment.API.Models.put;
-using CultureDepartment.Core.DTOs;
 using CultureDepartment.Core.Entities;
 
 namespace CultureDepartment.API

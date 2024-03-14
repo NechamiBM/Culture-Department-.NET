@@ -29,6 +29,7 @@ namespace CultureDepartment.API.Controllers
             _mapper = mapper;
         }
         // GET: api/<ResidentController>
+        [Authorize(Roles = "manager,worker,resident")]
         [HttpGet]
         public async Task<IActionResult> Get(int? gender, int? minage, int? maxage)
         {
@@ -52,7 +53,7 @@ namespace CultureDepartment.API.Controllers
         public async Task<IActionResult> Post([FromBody] ResidentPostModel postResident)
         {
             var resident = await _residentService.AddResidentAsync(_mapper.Map<Resident>(postResident));
-            return Ok(_mapper.Map<EventDto>(_mapper.Map<ResidentDto>(resident)));
+            return Ok(_mapper.Map<ResidentDto>(resident));
         }
 
         // PUT api/<ResidentController>/5

@@ -12,6 +12,5 @@ namespace CultureDepartment.Core.DTOs
         public int MinAge { get; set; }
         public int MaxAge { get; set; }
         public Gender Gender { get; set; }
-        private int x;
     }
 }

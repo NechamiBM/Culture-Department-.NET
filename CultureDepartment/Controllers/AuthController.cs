@@ -1,4 +1,6 @@
 ﻿using CultureDepartment.API.Models;
+using CultureDepartment.Core.Services;
+using CultureDepartment.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,27 +12,33 @@ using System.Text;
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
+    private readonly IWorkerService _workerService;
+    private readonly IResidentService _residentService;
+    private readonly IManagerService _managerService;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration, IWorkerService workerService, IResidentService residentService, IManagerService managerService)
     {
+        _workerService = workerService;
         _configuration = configuration;
+        _residentService = residentService;
+        _managerService = managerService;
     }
 
     [HttpPost]
-    public IActionResult Login([FromBody] LoginModel loginModel)
+    public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
     {
         var role = "";
         if (loginModel.Password == "Ma$852")
             role = "manager";
         else
         {
-            var worker = "bbb";
-            if (worker == loginModel.Password)
+            var worker = await _workerService.GetWorkerAsync(1);// loginModel.Password);
+            if (worker != null)
                 role = "worker";
             else
             {
-                var resident = "111";
-                if (resident == loginModel.Password)
+                var resident = await _residentService.GetResidentAsync(loginModel.Password);
+                if (resident != null)
                     role = "resident";
                 else return Unauthorized();
             }
@@ -47,7 +55,7 @@ public class AuthController : ControllerBase
             issuer: _configuration.GetValue<string>("JWT:Issuer"),
             audience: _configuration.GetValue<string>("JWT:Audience"),
             claims: claims,
-            expires: DateTime.Now.AddMinutes(6),
+            expires: DateTime.Now.AddMinutes(30),
             signingCredentials: signinCredentials
         );
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
