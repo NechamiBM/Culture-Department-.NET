@@ -3,6 +3,7 @@ using CultureDepartment.API.Models.post;
 using CultureDepartment.Core.DTOs;
 using CultureDepartment.Core.Entities;
 using CultureDepartment.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CultureDepartment.API.Controllers
 {
     [Route("culture.co.il/[controller]")]
+    [Authorize(Roles = "manager,worker")]
     [ApiController]
     public class EventController : ControllerBase
     {

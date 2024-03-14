@@ -2,6 +2,7 @@
 using CultureDepartment.Core.Entities;
 using CultureDepartment.Core.Services;
 using CultureDepartment.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CultureDepartment.API.Controllers
 {
     [Route("culture.co.il/[controller]")]
+    [Authorize(Roles = "manager")]
     [ApiController]
     public class ManagerController : ControllerBase
     {

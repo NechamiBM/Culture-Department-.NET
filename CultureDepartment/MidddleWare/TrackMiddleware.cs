@@ -31,6 +31,4 @@
             return builder.UseMiddleware<TrackMiddleware>();
         }
     }
-
-
 }

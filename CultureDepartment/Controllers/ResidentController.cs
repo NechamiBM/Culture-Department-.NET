@@ -6,6 +6,7 @@ using CultureDepartment.Core.Entities;
 using CultureDepartment.Core.Services;
 using CultureDepartment.Data;
 using CultureDepartment.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ using System.Numerics;
 namespace CultureDepartment.API.Controllers
 {
     [Route("culture.co.il/[controller]")]
+    [Authorize(Roles = "manager,worker")]
     [ApiController]
     public class ResidentController : ControllerBase
     {

@@ -9,12 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using static System.Net.Mime.MediaTypeNames;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CultureDepartment.API.Controllers
 {
     [Route("culture.co.il/[controller]")]
+    [Authorize(Roles = "manager")]
     [ApiController]
     public class WorkerController : ControllerBase
     {
