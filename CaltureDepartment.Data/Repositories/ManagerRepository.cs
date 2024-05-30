@@ -2,6 +2,7 @@
 using CultureDepartment.Core.Repositories;
 using CultureDepartment.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace CaltureDepartment.Data.Repositories
         {
             _context = context;
         }
-        public async Task<Manager> GetManagerAsync() => await _context.Manager.FindAsync();
+        public async Task<Manager> GetManagerAsync() => await _context.Manager.FirstOrDefaultAsync();
         public async Task<Manager> UpdateManegerAsync(Manager m)
         {
             var manager = _context.Manager.FirstOrDefault();
@@ -28,7 +29,7 @@ namespace CaltureDepartment.Data.Repositories
                 manager.Name = m.Name;
             }
             await _context.SaveChangesAsync();
-            return m;
+            return manager;
         }
     }
 

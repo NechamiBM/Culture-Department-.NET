@@ -38,10 +38,10 @@ namespace CultureDepartment.API.Controllers
             return Ok(listDto);
         }
         // GET api/<ResidentController>/5
-        [HttpGet("{tz}")]
-        public async Task<IActionResult> Get(string tz)
+        [HttpGet("{identity}")]
+        public async Task<IActionResult> Get(string identity)
         {
-            var resident = await _residentService.GetResidentAsync(tz);
+            var resident = await _residentService.GetResidentAsync(identity);
             var residentDto = _mapper.Map<ResidentDto>(resident);
             if (residentDto is null)
                 return NotFound();
@@ -57,17 +57,17 @@ namespace CultureDepartment.API.Controllers
         }
 
         // PUT api/<ResidentController>/5
-        [HttpPut("{tz}")]
-        public async Task<IActionResult> Put(string tz, [FromBody] ResidentPutModel putResident)
+        [HttpPut("{identity}")]
+        public async Task<IActionResult> Put(string identity, [FromBody] ResidentPutModel putResident)
         {
-            var resident = await _residentService.UpdateResidentAsync(tz, _mapper.Map<Resident>(putResident));
+            var resident = await _residentService.UpdateResidentAsync(identity, _mapper.Map<Resident>(putResident));
             if (resident is null)
                 return NotFound();
-            return Ok(_mapper.Map<EventDto>(_mapper.Map<ResidentDto>(resident)));
+            return Ok(_mapper.Map<ResidentDto>(resident));
         }
 
         // DELETE api/<ResidentController>/5
-        [HttpDelete("{tz}")]
-        public void Delete(string tz) => _residentService.DeleteResident(tz);
+        [HttpDelete("{identity}")]
+        public void Delete(string identity) => _residentService.DeleteResident(identity);
     }
 }

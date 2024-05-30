@@ -18,6 +18,7 @@ namespace CaltureDepartment.Data.Repositories
 
         public async Task<IEnumerable<Worker>> GetWorkersAsync() => await _context.Workers.ToListAsync();
         public async Task<Worker> GetWorkerAsync(int id) => await _context.Workers.FindAsync(id);
+        public async Task<Worker> GetWorkerAsync(string identity) => await _context.Workers.FirstOrDefaultAsync(t => t.Identity == identity);
         public async Task<Worker> AddWorkerAsync(Worker w)
         {
             _context.Workers.Add(w);
@@ -34,8 +35,14 @@ namespace CaltureDepartment.Data.Repositories
                 worker.IsResident = w.IsResident;
             }
             await _context.SaveChangesAsync();
-            return w;
+            return worker;
         }
-        public void DeleteWorker(int id) => _context.Workers.Remove(_context.Workers.ToList().Find(w => w.Id == id));
+        public void DeleteWorker(int id)
+        {
+            var workerToDelete = _context.Workers.Find(id);
+            if (workerToDelete != null)
+                _context.Workers.Remove(workerToDelete);
+            _context.SaveChanges();
+        }
     }
 }

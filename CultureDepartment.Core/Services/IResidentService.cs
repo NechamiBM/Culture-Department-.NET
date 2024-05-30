@@ -12,9 +12,9 @@ namespace CultureDepartment.Core.Services
     public interface IResidentService
     {
         Task<IEnumerable<Resident>> GetResidentsAsync(Gender? gender, int? minAge, int? maxAge);
-        Task<Resident> GetResidentAsync(string tz);
+        Task<Resident> GetResidentAsync(string tidentityz);
         Task<Resident> AddResidentAsync(Resident r);
-        Task<Resident> UpdateResidentAsync(string tz, Resident r);
-        void DeleteResident(string tz);
+        Task<Resident> UpdateResidentAsync(string identity, Resident r);
+        void DeleteResident(string identity);
     }
 }

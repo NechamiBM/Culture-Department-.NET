@@ -20,7 +20,7 @@ namespace CultureDepartment.Service
         public async Task<Manager> GetManagerAsync()
         {
             var manager = await _managerRepository.GetManagerAsync();
-            manager.Password = "********";//צריך לבדוק איך להחליף לכוכביות
+            manager.Password = new string('*', manager.Password.Length);
             return manager;
         }
         public async Task<Manager> UpdateManegerAsync(Manager m) => await _managerRepository.UpdateManegerAsync(m);

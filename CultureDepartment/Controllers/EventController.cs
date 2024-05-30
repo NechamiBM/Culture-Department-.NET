@@ -48,6 +48,8 @@ namespace CultureDepartment.API.Controllers
         public async Task<IActionResult> Post([FromBody] EventPostModel postEvent)
         {
             var eve = await _eventService.AddEventAsync(_mapper.Map<Event>(postEvent));
+            if (eve == null)
+                return NotFound($"Worker Id {postEvent.WorkerId} doesn't exist");
             var newEve = await _eventService.GetEventAsync(eve.Id);
             return Ok(_mapper.Map<EventDto>(newEve));
         }

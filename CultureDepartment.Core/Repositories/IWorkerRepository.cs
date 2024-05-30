@@ -11,6 +11,7 @@ namespace CultureDepartment.Core.Repositories
     {
         Task<IEnumerable<Worker>> GetWorkersAsync();
         Task<Worker> GetWorkerAsync(int id);
+        Task<Worker> GetWorkerAsync(string identity);
         Task<Worker> AddWorkerAsync(Worker w);
         Task<Worker> UpdateWorkerAsync(int id, Worker w);
         void DeleteWorker(int id);

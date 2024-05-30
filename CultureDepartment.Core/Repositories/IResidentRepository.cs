@@ -11,9 +11,9 @@ namespace CultureDepartment.Core.Repositories
     public interface IResidentRepository
     {
         Task<IEnumerable<Resident>> GetResidentsAsync();
-        Task<Resident> GetResidentAsync(string tz);
+        Task<Resident> GetResidentAsync(string identity);
         Task<Resident> AddResidentAsync(Resident r);
-        Task<Resident> UpdateResidentAsync(string tz, Resident r);
-        void DeleteResident(string tz);
+        Task<Resident> UpdateResidentAsync(string identity, Resident r);
+        void DeleteResident(string identity);
     }
 }

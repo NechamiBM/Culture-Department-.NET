@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
             role = "manager";
         else
         {
-            var worker = await _workerService.GetWorkerAsync(1);// loginModel.Password);
+            var worker = await _workerService.GetWorkerAsync(loginModel.Password);
             if (worker != null)
                 role = "worker";
             else

@@ -39,7 +39,7 @@ namespace CaltureDepartment.Data.Repositories
                 e.Gender = updateEvent.Gender;
             }
             await _context.SaveChangesAsync();
-            return updateEvent;
+            return e;
         }
 
         public async Task<Event> UpdateEventStatusAsync(int id, statusEvent status)

@@ -12,7 +12,12 @@ namespace CultureDepartment.Service
     public class EventService : IEventService
     {
         private readonly IEventRepository _eventRepository;
-        public EventService(IEventRepository eventRepository) => _eventRepository = eventRepository;
+        private readonly IWorkerService _workerService;
+        public EventService(IEventRepository eventRepository, IWorkerService workerService)
+        {
+            _eventRepository = eventRepository;
+            _workerService = workerService;
+        }
 
         public async Task<IEnumerable<Event>> GetEventsAsync(statusEvent? status, int? age)
         {
@@ -24,8 +29,14 @@ namespace CultureDepartment.Service
         {
             return await _eventRepository.GetEventAsync(id);
         }
-        public async Task<Event> AddEventAsync(Event e) => await _eventRepository.AddEventAsync(e);
-       
+        public async Task<Event> AddEventAsync(Event e)
+        {
+            var worker = await _workerService.GetWorkerAsync(e.WorkerId);
+            if (worker != null)
+                return await _eventRepository.AddEventAsync(e);
+            return null;
+        }
+
         public async Task<Event> UpdateEventAsync(int id, Event e) => await _eventRepository.UpdateEventAsync(id, e);
 
         public async Task<Event> UpdateEventStatusAsync(int id, statusEvent status)

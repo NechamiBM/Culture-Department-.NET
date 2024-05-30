@@ -23,9 +23,9 @@ namespace CultureDepartment.Service
             (maxAge == null || r.Age <= maxAge) &&
             (gender == null || r.Gender == gender));
         }
-        public async Task<Resident> GetResidentAsync(string tz) => await _residentRepository.GetResidentAsync(tz);
+        public async Task<Resident> GetResidentAsync(string identity) => await _residentRepository.GetResidentAsync(identity);
         public async Task<Resident> AddResidentAsync(Resident r) => await _residentRepository.AddResidentAsync(r);
-        public async Task<Resident> UpdateResidentAsync(string tz, Resident r) => await _residentRepository.UpdateResidentAsync(tz, r);
-        public void DeleteResident(string tz) => _residentRepository.DeleteResident(tz);
+        public async Task<Resident> UpdateResidentAsync(string identity, Resident r) => await _residentRepository.UpdateResidentAsync(identity, r);
+        public void DeleteResident(string identity) => _residentRepository.DeleteResident(identity);
     }
 }
