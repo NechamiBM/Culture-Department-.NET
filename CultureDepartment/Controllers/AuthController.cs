@@ -27,18 +27,19 @@ public class AuthController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
     {
-        var role = "";
-        if (loginModel.Password == "Ma$852")
+        string role;
+        bool isManager = await _managerService.IsManagerPassword(loginModel.Password);
+        if (loginModel.UserName == "manager" && isManager)
             role = "manager";
         else
         {
             var worker = await _workerService.GetWorkerAsync(loginModel.Password);
-            if (worker != null)
+            if (worker != null && worker.Name == loginModel.UserName)
                 role = "worker";
             else
             {
                 var resident = await _residentService.GetResidentAsync(loginModel.Password);
-                if (resident != null)
+                if (resident != null && resident.FirstName + " " + resident.LastName == loginModel.UserName)
                     role = "resident";
                 else return Unauthorized();
             }

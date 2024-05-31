@@ -11,5 +11,6 @@ namespace CultureDepartment.Core.Repositories
     {
         Task<Manager> GetManagerAsync();
         Task<Manager> UpdateManegerAsync(Manager m);
+        Task<bool> IsManagerPassword(string password);
     }
 }

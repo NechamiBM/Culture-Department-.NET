@@ -31,6 +31,10 @@ namespace CaltureDepartment.Data.Repositories
             await _context.SaveChangesAsync();
             return manager;
         }
+        public async Task<bool> IsManagerPassword(string password)
+        {
+            var m = await _context.Manager.FirstOrDefaultAsync();
+            return m == null || m.Password == password;
+        }
     }
-
 }

@@ -24,5 +24,6 @@ namespace CultureDepartment.Service
             return manager;
         }
         public async Task<Manager> UpdateManegerAsync(Manager m) => await _managerRepository.UpdateManegerAsync(m);
+        public async Task<bool> IsManagerPassword(string password) => await _managerRepository.IsManagerPassword(password);
     }
 }
