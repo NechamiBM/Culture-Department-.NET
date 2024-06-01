@@ -1,4 +1,7 @@
-﻿namespace CultureDepartment.API.MidddleWare
+﻿using Newtonsoft.Json;
+using System.Net;
+
+namespace CultureDepartment.API.MidddleWare
 {
     public class TrackMiddleware
     {
@@ -13,13 +16,14 @@
         {
             var requestSeq = Guid.NewGuid().ToString();
             context.Items.Add("RequestSequence", requestSeq);
-
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday)
-                await context.Response.WriteAsync(new HttpResponseMessage
-                {
-                    StatusCode = System.Net.HttpStatusCode.BadRequest,
-                    Content = new StringContent("Today is Shabbat, The service is not active", System.Text.Encoding.UTF8, "application/json")
-                }.ToString());
+            if ((DateTime.Now.DayOfWeek == DayOfWeek.Friday && DateTime.Now.TimeOfDay >= new TimeSpan(13, 0, 0))
+                  || (DateTime.Now.DayOfWeek == DayOfWeek.Saturday && DateTime.Now.TimeOfDay < new TimeSpan(20, 0, 0)))
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.ContentType = "application/json";
+                string responseMessage = "Today is Shabbat. The service is not active.";
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(responseMessage));
+            }
             else
                 await _next(context);
         }
